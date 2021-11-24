@@ -18,6 +18,7 @@ public class AmobaFrame extends JFrame implements ActionListener {
     private JComboBox CoBSelect;
     private JComboBox LTWSelect;
     private DefaultComboBoxModel<Integer> cbm;
+    private GameController gc;
 
     private int currentCard = 1;
     private AmobaGameModel ags;
@@ -88,9 +89,9 @@ public class AmobaFrame extends JFrame implements ActionListener {
         kilepes.addActionListener(e -> System.exit(0));
 
         start.addActionListener(e -> {
-            ags = new AmobaGameModel((Integer) LTWSelect.getSelectedItem(),
+            gc = new GameController((Integer) LTWSelect.getSelectedItem(),
                     (Integer) RoBSelect.getSelectedItem(), (Integer) CoBSelect.getSelectedItem());
-            boardView = new BoardFrame(ags);
+            boardView = gc.getBoard();
             GameMenu.add(boardView,BorderLayout.CENTER);
             cl.show(Cards,"game");
         });
@@ -126,7 +127,9 @@ public class AmobaFrame extends JFrame implements ActionListener {
         pack();
     }
 
-
+    public void backToMenu(){
+        cl.show(Cards,"main");
+    }
 
     private static void addAComponent(JComponent c, Container container) {
         c.setAlignmentX(Component.CENTER_ALIGNMENT);

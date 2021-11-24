@@ -11,18 +11,16 @@ public class BoardFrame extends JPanel implements ActionListener {
     int Columns;
     int FieldSize;
     XOButton[] buttons;
-    AmobaGameModel Ags;
+    GameController gc;
     JPanel BoardPanel;
     JTextField StatusBar;
 
-    public BoardFrame(AmobaGameModel ags){
+    public BoardFrame(GameController gc){
         super();
         setLayout(new BorderLayout());
-
-        this.Ags = ags;
-        GameBoard gb = ags.getGameBoard();
-        Rows = gb.getRows();
-        Columns = gb.getColumns();
+        this.gc = gc;
+        Rows = gc.getModel().getGameBoard().getRows();
+        Columns = gc.getModel().getGameBoard().getColumns();
         FieldSize = Rows * Columns;
 
         BoardPanel = new JPanel();
@@ -53,41 +51,51 @@ public class BoardFrame extends JPanel implements ActionListener {
         add(StatusBar,BorderLayout.NORTH);
         add(BoardPanel,BorderLayout.CENTER);
     }
+
+    public Window getWindow(){
+        return SwingUtilities.windowForComponent(BoardPanel);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         int pos;
         for(pos = 0; pos != FieldSize; pos++){
             if(e.getSource() == buttons[pos]) break;
         }
-        if(Ags.moveMade(pos)){
-            switch (Ags.getCurrentPlayer()) {
-                case X -> {
-                    buttons[pos].setX();
-                    StatusBar.setText("O jon");
-                }
-                case O -> {
-                    buttons[pos].setO();
-                    StatusBar.setText("X jon");
-                }
+        gc.buttonPressed(pos);
+    }
+
+    public void markField(int which, Player player){
+        switch (player) {
+            case X -> {
+                buttons[which].setX();
+                StatusBar.setText("O jon");
             }
-            int status = Ags.isOver(pos);
-            if(status != -1){
-                gameOver(status);
+            case O -> {
+                buttons[which].setO();
+                StatusBar.setText("X jon");
             }
-            Ags.switchPlayer();
-        } else {
-            StatusBar.setText("A mezo mar foglalt!");
         }
     }
 
-    private void gameOver(int status) {
+    public void displayGameOver(int status) {
         if(status == 1){
-            char Winner = Player.toChar(Ags.getCurrentPlayer());
+            char Winner = Player.toChar(gc.getModel().getCurrentPlayer());
             StatusBar.setText(Winner + " nyert!");
         }
         else{
             StatusBar.setText("A jatek dontetlennel ert veget.");
         }
+        Object[] option={"Back to Main Menu"};
+        int n=JOptionPane.showOptionDialog(getParent(), "Game Over\n","Game Over",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,option,option[0]);
+        if (n == 0){
+            JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
+            AmobaFrame topFrame = (AmobaFrame) f1;
+            topFrame.backToMenu();
+        }
+    }
 
+    public void invalidMove() {
+        StatusBar.setText("A mezo mar foglalt!");
     }
 }
