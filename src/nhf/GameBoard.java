@@ -10,22 +10,10 @@ import java.util.List;
 
 public class GameBoard {
 
-    private int Columns;
-    private int Rows;
-    private ArrayList<ArrayList<Character>> Field;
-    private int FieldSize;
+    private ArrayList2D<Character> Field;
 
     public GameBoard(int columns, int rows) {
-        Columns = columns;
-        Rows = rows;
-        FieldSize = Columns * Rows;
-        Field = new ArrayList<ArrayList<Character>>(Rows);
-        for(int i = 0; i != Rows; i++){
-            Field.add(new ArrayList<>(Columns));
-            for(int j = 0; j != Columns; j++){
-                Field.get(i).add('0');
-            }
-        }
+        Field = new ArrayList2D<>(rows,columns,'0');
     }
 
 /*
@@ -52,16 +40,16 @@ public class GameBoard {
  
 
     public String stringOfRow(int row){
-        char[] ret = new char[Columns];
-        for(int i=0 ; i != Columns; i++){
+        char[] ret = new char[Field.getColumns()];
+        for(int i=0 ; i != Field.getColumns(); i++){
             ret[i] = Field.get(row).get(i);
         }
         return new String(ret);
     }
 
     public String stringOfColumn(int column){
-        char[] ret = new char[Rows];
-        for(int i = 0; i != Rows; i++){
+        char[] ret = new char[Field.getRows()];
+        for(int i = 0; i != Field.getRows(); i++){
            ret[i] = Field.get(i).get(column);
         }
         return new String(ret);
@@ -89,11 +77,11 @@ public class GameBoard {
         }
         ret = reverseString(ret);
         //az ujonnan lerakott jelet nem vesszük kétszer bele
-        if(row != Rows-1 && column != Columns-1) {
+        if(row != Field.getRows() -1 && column != Field.getColumns()-1) {
             i = row + 1;
             j = column + 1;
             //egyet le egyet jobbra
-            while (i <= Rows-1 && j <= Columns-1) {
+            while (i <= Field.getRows()-1 && j <= Field.getColumns()-1) {
                 ret = ret.concat(Field.get(i++).get(j++).toString());
             }
         }
@@ -105,17 +93,17 @@ public class GameBoard {
         //egyet fel egyet jobbra
         int i = row;
         int j = column;
-        while(i >= 0 && j <= Columns - 1){
+        while(i >= 0 && j <= Field.getColumns() - 1){
             ret = ret.concat(Field.get(i--).get(j++).toString());
         }
 
         ret = reverseString(ret);
         //az ujonnan lerakott jelet nem vesszük kétszer bele
-        if(row != Rows-1 && column != 0){
+        if(row != Field.getRows()-1 && column != 0){
             i = row + 1;
             j = column - 1;
             //egyet le egyet balra
-            while (i <= Rows -1  && j >= 0) {
+            while (i <= Field.getRows() -1  && j >= 0) {
               ret = ret.concat(Field.get(i++).get(j--).toString());
 
             }
@@ -123,16 +111,16 @@ public class GameBoard {
         return ret;
     }
 
-    public int getFieldSize(){ return FieldSize;}
+    public int getFieldSize(){ return Field.getSize();}
 
-    public int getColumns(){return Columns;}
+    public int getColumns(){return Field.getColumns();}
 
-    public int getRows(){return Rows;}
+    public int getRows(){return Field.getRows();}
 
     public int[] findPos(int i){
         int[] pos = new int[2];
-        pos[0] = i / Columns;
-        pos[1] = i % Columns;
+        pos[0] = i / Field.getColumns();
+        pos[1] = i % Field.getColumns();
         return pos;
     }
 
@@ -150,15 +138,15 @@ public class GameBoard {
         if(Field.get(row).get(column) != '0'){
             return false;
         } else {
-            setValue(Field,row,column,Player.toChar(player));
+            Field.setValue(row,column,Player.toChar(player));
             return true;
         }
     }
 
     public int positionsLeft() {
         int ret = 0;
-        for(int i = 0; i != Rows; i++){
-            for(int j = 0; j != Columns; j++) {
+        for(int i = 0; i != Field.getRows(); i++){
+            for(int j = 0; j != Field.getColumns(); j++) {
                 if ( Field.get(i).get(j) == '0') ret++;
             }
         }

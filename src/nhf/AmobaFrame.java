@@ -88,7 +88,8 @@ public class AmobaFrame extends JFrame implements ActionListener {
         kilepes.addActionListener(e -> System.exit(0));
 
         start.addActionListener(e -> {
-            ags = new AmobaGameModel(this.LengthToWin,Rows,Columns);
+            ags = new AmobaGameModel((Integer) LTWSelect.getSelectedItem(),
+                    (Integer) RoBSelect.getSelectedItem(), (Integer) CoBSelect.getSelectedItem());
             boardView = new BoardFrame(ags);
             GameMenu.add(boardView,BorderLayout.CENTER);
             cl.show(Cards,"game");
@@ -134,8 +135,8 @@ public class AmobaFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JComboBox cb = (JComboBox) e.getSource();
         try {
-            JComboBox cb = (JComboBox) e.getSource();
             if (cb == RoBSelect) {
                 Rows = (Integer) cb.getSelectedItem();
             } else if (cb == CoBSelect) {
@@ -158,6 +159,9 @@ public class AmobaFrame extends JFrame implements ActionListener {
             for(int i = last + 1; i <= LengthToWin; i++){
                 cbm.addElement(i);
             }
+        }
+        if (cb == LTWSelect) {
+            LengthToWin = (Integer) cb.getSelectedItem();
         }
     }
 
