@@ -92,6 +92,7 @@ public class BoardFrame extends JPanel implements ActionListener {
             JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
             AmobaFrame topFrame = (AmobaFrame) f1;
             topFrame.backToMenu();
+            setVisible(false);
         }
     }
 

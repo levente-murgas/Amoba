@@ -89,8 +89,10 @@ public class AmobaFrame extends JFrame implements ActionListener {
         kilepes.addActionListener(e -> System.exit(0));
 
         start.addActionListener(e -> {
-            gc = new GameController((Integer) LTWSelect.getSelectedItem(),
-                    (Integer) RoBSelect.getSelectedItem(), (Integer) CoBSelect.getSelectedItem());
+            this.LengthToWin = (Integer) LTWSelect.getSelectedItem();
+            Rows = (Integer) RoBSelect.getSelectedItem();
+            Columns = (Integer) CoBSelect.getSelectedItem();
+            gc = new GameController(this.LengthToWin,Rows,Columns);
             boardView = gc.getBoard();
             GameMenu.add(boardView,BorderLayout.CENTER);
             cl.show(Cards,"game");
