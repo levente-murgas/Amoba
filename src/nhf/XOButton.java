@@ -36,7 +36,4 @@ public class XOButton extends JButton  {
     public void setX(){setIcon(Xbutton);}
 
     public void setO(){setIcon(Obutton);}
-
-
-
 }

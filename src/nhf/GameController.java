@@ -29,4 +29,7 @@ public class GameController {
         }
     }
 
+    public void saveGame(int i) {
+        System.out.println(i);
+    }
 }

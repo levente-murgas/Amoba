@@ -12,10 +12,11 @@ import java.net.URL;
 public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     private JPanel Cards;
     private CardLayout cl;
-    private JPanel GameMenu;
+    private JPanel gameMenu;
     private int Rows;
     private int Columns;
     private int LengthToWin;
+    private SavePanel savePanel;
     private JComboBox RoBSelect;
     private JComboBox CoBSelect;
     private JComboBox LTWSelect;
@@ -42,12 +43,13 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainMenu = new JPanel(new BorderLayout());
+        JPanel loadMenu = new JPanel();
         JPanel saveMenu = new JPanel();
-        GameMenu = new JPanel();
+        gameMenu = new JPanel();
         Cards.add(mainMenu,"main");
+        Cards.add(loadMenu,"load");
         Cards.add(saveMenu,"save");
-        Cards.add(GameMenu,"game");
-
+        Cards.add(gameMenu,"game");
         Integer[] sizes = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
                 13, 14, 15, 16, 17, 18, 19, 20};
 
@@ -90,45 +92,59 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         BottomPanel.add(start);
         BottomPanel.add(kilepes);
 
-        betolt.addActionListener(e -> cl.show(Cards,"save"));
-
-        kilepes.addActionListener(e -> System.exit(0));
-
-        start.addActionListener(e -> {
-            LengthToWin = (Integer) LTWSelect.getSelectedItem();
-            Rows = (Integer) RoBSelect.getSelectedItem();
-            Columns = (Integer) CoBSelect.getSelectedItem();
-            gc = new GameController(this.LengthToWin,Rows,Columns);
-            boardView = gc.getBoard();
-            GameMenu.add(boardView,BorderLayout.CENTER);
-            cl.show(Cards,"game");
-        });
-
         mainMenu.add(TopPanel,BorderLayout.NORTH);
         mainMenu.add(BottomPanel,BorderLayout.SOUTH);
         //
-        ///SaveMenu
-        JPanel savesPanel = new JPanel();
-        savesPanel.setLayout(new BoxLayout(savesPanel,BoxLayout.Y_AXIS));
-        JLabel saves = new JLabel("Mentesek");
-        JButton save1 = new JButton("Mentes1");
-        JButton save2 = new JButton("Mentes2");
-        JButton save3 = new JButton("Mentes3");
-        JButton save4 = new JButton("Mentes4");
-        JButton save5 = new JButton("Mentes5");
-        JButton back = new JButton("Vissza");
-        back.addActionListener(e -> cl.show(Cards,"main"));
-        addAComponent(saves,savesPanel);
-        addAComponent(save1,savesPanel);
-        addAComponent(save2,savesPanel);
-        addAComponent(save3,savesPanel);
-        addAComponent(save4,savesPanel);
-        addAComponent(save5,savesPanel);
-        saveMenu.add(back);
-        saveMenu.add(savesPanel);
+        ///loadMenu
+        JPanel loadPanel = new JPanel();
+        loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
+        JLabel loads = new JLabel("Mentesek");
+        JButton load1 = new JButton("Mentes1");
+        JButton load2 = new JButton("Mentes2");
+        JButton load3 = new JButton("Mentes3");
+        JButton load4 = new JButton("Mentes4");
+        JButton load5 = new JButton("Mentes5");
+        JButton backToMenuBtn = new JButton("Vissza");
+        backToMenuBtn.addActionListener(e -> backToMenu());
+        addAComponent(loads,loadPanel);
+        addAComponent(load1,loadPanel);
+        addAComponent(load2,loadPanel);
+        addAComponent(load3,loadPanel);
+        addAComponent(load4,loadPanel);
+        addAComponent(load5,loadPanel);
+        loadMenu.add(backToMenuBtn);
+        loadMenu.add(loadPanel);
         //
-        ///GameMenu
-        GameMenu.setLayout(new BorderLayout());
+        ///gameMenu
+        gameMenu.setLayout(new BorderLayout());
+
+        //saveMenu
+        SavePanel savePanel = new SavePanel();
+        savePanel.setLayout(new BoxLayout(savePanel,BoxLayout.Y_AXIS));
+        JLabel jl1 = new JLabel("Mentsd ide:");
+        JButton save1 = new JButton("Mentes1");
+        save1.addActionListener(savePanel);
+        JButton save2 = new JButton("Mentes2");
+        save2.addActionListener(savePanel);
+        JButton save3 = new JButton("Mentes3");
+        save3.addActionListener(savePanel);
+        JButton save4 = new JButton("Mentes4");
+        save4.addActionListener(savePanel);
+        JButton save5 = new JButton("Mentes5");
+        save5.addActionListener(savePanel);
+        JButton backToGameBtn = new JButton("Vissza a jatekhoz");
+        backToGameBtn.addActionListener(e -> {
+            boardView.setVisible(true);
+            cl.show(Cards,"game");
+        });
+        addAComponent(jl1,savePanel);
+        addAComponent(save1,savePanel);
+        addAComponent(save2,savePanel);
+        addAComponent(save3,savePanel);
+        addAComponent(save4,savePanel);
+        addAComponent(save5,savePanel);
+        saveMenu.add(backToGameBtn);
+        saveMenu.add(savePanel);
 
         ///MenuBar
         MenuBar = new JMenuBar();
@@ -155,6 +171,27 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             }
 
         });
+        SaveAndExit.addActionListener(e -> {
+            cl.show(Cards,"save");
+            boardView.setVisible(false);
+        });
+
+        betolt.addActionListener(e -> cl.show(Cards,"load"));
+
+        kilepes.addActionListener(e -> System.exit(0));
+
+        start.addActionListener(e -> {
+            LengthToWin = (Integer) LTWSelect.getSelectedItem();
+            Rows = (Integer) RoBSelect.getSelectedItem();
+            Columns = (Integer) CoBSelect.getSelectedItem();
+            gc = new GameController(this.LengthToWin,Rows,Columns);
+            savePanel.setGC(gc);
+            boardView = gc.getBoard();
+            gameMenu.add(boardView,BorderLayout.CENTER);
+            cl.show(Cards,"game");
+        });
+
+
 
         getContentPane().add(Cards);
 
@@ -184,6 +221,9 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
                 return "main";
             }
             case 1 -> {
+                return "load";
+            }
+            case 2-> {
                 return "save";
             }
             default -> {return "game";}
