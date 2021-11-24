@@ -3,7 +3,7 @@ package nhf;
 
 
 public class AmobaGameModel  {
-    public enum Player {
+    public  enum Player {
         O, X;
         public static Player opponentOf(Player player) {
             return player == X ? O : X;
