@@ -29,7 +29,4 @@ public class GameController {
         }
     }
 
-    public Window getWindow(){
-        return boardFrame.getWindow();
-    }
 }

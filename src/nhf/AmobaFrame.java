@@ -2,15 +2,17 @@ package nhf;
 
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
-public class AmobaFrame extends JFrame implements ActionListener {
+public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     private JPanel Cards;
     private CardLayout cl;
     private JPanel GameMenu;
-    private BoardFrame boardView;
     private int Rows;
     private int Columns;
     private int LengthToWin;
@@ -19,9 +21,13 @@ public class AmobaFrame extends JFrame implements ActionListener {
     private JComboBox LTWSelect;
     private DefaultComboBoxModel<Integer> cbm;
     private GameController gc;
-
-    private int currentCard = 1;
-    private AmobaGameModel ags;
+    private BoardFrame boardView;
+    private JMenuBar MenuBar;
+    private JMenu FileMenu;
+    private JMenu Help;
+    private JMenuItem About;
+    private JMenuItem SaveAndExit;
+    private JMenuItem BackToMenu;
 
     public AmobaFrame() {
         Cards = new JPanel();
@@ -60,7 +66,7 @@ public class AmobaFrame extends JFrame implements ActionListener {
         CoBSelect.setSelectedIndex(0);
         CoBSelect.setEditable(false);
 
-        JLabel LengthToWin = new JLabel("Gyozelemhez szukseges vonal hossza:");
+        JLabel LengthToWinLabel = new JLabel("Gyozelemhez szukseges vonal hossza:");
         cbm = new DefaultComboBoxModel<>();
         cbm.addElement(3);
         cbm.setSelectedItem(3);
@@ -76,7 +82,7 @@ public class AmobaFrame extends JFrame implements ActionListener {
         TopPanel.add(RoBSelect);
         TopPanel.add(ColumnsOfBoard);
         TopPanel.add(CoBSelect);
-        TopPanel.add(LengthToWin);
+        TopPanel.add(LengthToWinLabel);
         TopPanel.add(LTWSelect);
 
         JPanel BottomPanel = new JPanel();
@@ -89,7 +95,7 @@ public class AmobaFrame extends JFrame implements ActionListener {
         kilepes.addActionListener(e -> System.exit(0));
 
         start.addActionListener(e -> {
-            this.LengthToWin = (Integer) LTWSelect.getSelectedItem();
+            LengthToWin = (Integer) LTWSelect.getSelectedItem();
             Rows = (Integer) RoBSelect.getSelectedItem();
             Columns = (Integer) CoBSelect.getSelectedItem();
             gc = new GameController(this.LengthToWin,Rows,Columns);
@@ -124,9 +130,64 @@ public class AmobaFrame extends JFrame implements ActionListener {
         ///GameMenu
         GameMenu.setLayout(new BorderLayout());
 
+        ///MenuBar
+        MenuBar = new JMenuBar();
+        FileMenu = new JMenu("File");
+        Help = new JMenu("Help");
+        About = new JMenuItem("About");
+        SaveAndExit = new JMenuItem("Save & Exit");
+        BackToMenu = new JMenuItem("Back to Menu");
+        FileMenu.add(SaveAndExit);
+        FileMenu.add(BackToMenu);
+        Help.add(About);
+        MenuBar.add(FileMenu);
+        MenuBar.add(Help);
+        setJMenuBar(MenuBar);
+        FileMenu.addMenuListener(this);
+        About.addActionListener(e -> openWebpage("https://hu.wikipedia.org/wiki/Am%C5%91ba_(j%C3%A1t%C3%A9k)"));
+        BackToMenu.addActionListener(e -> {
+            int answer = JOptionPane.showConfirmDialog(this,
+                    "Biztos ki akarsz lepni mentes nelkul? A jatekallas nagyon szomoru lesz ha elveszit teged:(", "Back To Menu",
+                    JOptionPane.YES_NO_OPTION);
+            if(answer == JOptionPane.YES_OPTION) {
+                backToMenu();
+                boardView.setVisible(false);
+            }
+
+        });
+
         getContentPane().add(Cards);
 
         pack();
+    }
+
+    private static void openWebpage(String urlString) {
+        try {
+            Desktop.getDesktop().browse(new URL(urlString).toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private String getCurrentCard(){
+        Component[] c = Cards.getComponents();
+        int i = 0;
+        int j = c.length;
+        while (i < j) {
+            if (c[i].isVisible()) {
+                break;
+            }
+            else
+                i ++;
+        }
+        switch (i){
+            case 0 -> {
+                return "main";
+            }
+            case 1 -> {
+                return "save";
+            }
+            default -> {return "game";}
+        }
     }
 
     public void backToMenu(){
@@ -137,6 +198,8 @@ public class AmobaFrame extends JFrame implements ActionListener {
         c.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(c);
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -168,6 +231,28 @@ public class AmobaFrame extends JFrame implements ActionListener {
         if (cb == LTWSelect) {
             LengthToWin = (Integer) cb.getSelectedItem();
         }
+    }
+
+
+
+    @Override
+    public void menuSelected(MenuEvent e) {
+        if(getCurrentCard().equals("game")){
+            SaveAndExit.setEnabled(true);
+            BackToMenu.setEnabled(true);
+        }
+        else{
+            SaveAndExit.setEnabled(false);
+            BackToMenu.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void menuDeselected(MenuEvent e) {
+    }
+
+    @Override
+    public void menuCanceled(MenuEvent e) {
     }
 
     public static void main(String[] args){
