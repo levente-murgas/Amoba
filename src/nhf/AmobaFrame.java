@@ -38,7 +38,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         Columns = 3;
         LengthToWin = 3;
 
-        setTitle("Amoba");
+        setTitle("Amoeba");
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,30 +54,30 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
                 13, 14, 15, 16, 17, 18, 19, 20};
 
         //MAINMENU
-        JLabel RowsOfBoard = new JLabel("Palya magassaga:");
+        JLabel RowsOfBoard = new JLabel("Rows:");
         RoBSelect = new JComboBox(sizes);
         RoBSelect.setSelectedItem(3);
         RoBSelect.setSelectedIndex(0);
         RoBSelect.setEditable(false);
         RoBSelect.addActionListener(this);
 
-        JLabel ColumnsOfBoard = new JLabel("Palya szelessege:");
+        JLabel ColumnsOfBoard = new JLabel("Columns:");
         CoBSelect = new JComboBox(sizes);
         CoBSelect.setSelectedItem(3);
         CoBSelect.addActionListener(this);
         CoBSelect.setSelectedIndex(0);
         CoBSelect.setEditable(false);
 
-        JLabel LengthToWinLabel = new JLabel("Gyozelemhez szukseges vonal hossza:");
+        JLabel LengthToWinLabel = new JLabel("Length to win:");
         cbm = new DefaultComboBoxModel<>();
         cbm.addElement(3);
         cbm.setSelectedItem(3);
         LTWSelect = new JComboBox(cbm);
         LTWSelect.setSelectedIndex(0);
 
-        JButton betolt = new JButton("Betolt");
+        JButton betolt = new JButton("Load");
         JButton start = new JButton("Start");
-        JButton kilepes = new JButton("Kilepes");
+        JButton kilepes = new JButton("Exit");
 
         JPanel TopPanel = new JPanel();
         TopPanel.add(RowsOfBoard);
@@ -98,18 +98,18 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         ///loadMenu
         LoadPanel loadPanel = new LoadPanel();
         loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
-        JLabel loads = new JLabel("Mentesek");
-        JButton load1 = new JButton("Mentes1");
+        JLabel loads = new JLabel("Saves");
+        JButton load1 = new JButton("Save1");
         load1.addActionListener(loadPanel);
-        JButton load2 = new JButton("Mentes2");
+        JButton load2 = new JButton("Save2");
         load2.addActionListener(loadPanel);
-        JButton load3 = new JButton("Mentes3");
+        JButton load3 = new JButton("Save3");
         load3.addActionListener(loadPanel);
-        JButton load4 = new JButton("Mentes4");
+        JButton load4 = new JButton("Save4");
         load4.addActionListener(loadPanel);
-        JButton load5 = new JButton("Mentes5");
+        JButton load5 = new JButton("Save5");
         load5.addActionListener(loadPanel);
-        JButton backToMenuBtn = new JButton("Vissza");
+        JButton backToMenuBtn = new JButton("Back");
         backToMenuBtn.addActionListener(e -> backToMenu());
         addAComponent(loads,loadPanel);
         addAComponent(load1,loadPanel);
@@ -126,18 +126,18 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         //saveMenu
         savePanel = new SavePanel();
         savePanel.setLayout(new BoxLayout(savePanel,BoxLayout.Y_AXIS));
-        JLabel jl1 = new JLabel("Mentsd ide:");
-        JButton save1 = new JButton("Mentes1");
+        JLabel jl1 = new JLabel("Save here:");
+        JButton save1 = new JButton("Save1");
         save1.addActionListener(savePanel);
-        JButton save2 = new JButton("Mentes2");
+        JButton save2 = new JButton("Save2");
         save2.addActionListener(savePanel);
-        JButton save3 = new JButton("Mentes3");
+        JButton save3 = new JButton("Save3");
         save3.addActionListener(savePanel);
-        JButton save4 = new JButton("Mentes4");
+        JButton save4 = new JButton("Save4");
         save4.addActionListener(savePanel);
-        JButton save5 = new JButton("Mentes5");
+        JButton save5 = new JButton("Save5");
         save5.addActionListener(savePanel);
-        JButton backToGameBtn = new JButton("Vissza a jatekhoz");
+        JButton backToGameBtn = new JButton("Back");
         backToGameBtn.addActionListener(e -> {
             boardView.setVisible(true);
             cl.show(Cards,"game");
@@ -168,7 +168,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         About.addActionListener(e -> openWebpage("https://hu.wikipedia.org/wiki/Am%C5%91ba_(j%C3%A1t%C3%A9k)"));
         BackToMenu.addActionListener(e -> {
             int answer = JOptionPane.showConfirmDialog(this,
-                    "Biztos ki akarsz lepni mentes nelkul? A jatekallas nagyon szomoru lesz ha elveszit teged:(", "Back To Menu",
+                    "Are you sure you want to exit? Any unsaved changes will be lost.", "Back to Menu",
                     JOptionPane.YES_NO_OPTION);
             if(answer == JOptionPane.YES_OPTION) {
                 backToMenu();
@@ -189,7 +189,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             LengthToWin = (Integer) LTWSelect.getSelectedItem();
             Rows = (Integer) RoBSelect.getSelectedItem();
             Columns = (Integer) CoBSelect.getSelectedItem();
-            gc = new GameController(this.LengthToWin,Rows,Columns);
+            gc = new GameController(LengthToWin,Rows,Columns);
             startGame(gc);
         });
 

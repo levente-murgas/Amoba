@@ -15,8 +15,10 @@ public class GameController {
         boardFrame = new BoardFrame(this);
     }
 
-    public GameController(AmobaGameModel ag) {
-        gameModel = ag;
+
+    public GameController(int lengthToWin, ArrayList2D<Character> b) {
+        GameBoard gb = new GameBoard(lengthToWin,b);
+        gameModel = new AmobaGameModel(lengthToWin,gb,gb.decideCurrentPlayer());
         boardFrame = new BoardFrame(this);
     }
 

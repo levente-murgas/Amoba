@@ -27,8 +27,8 @@ public class GameBoard {
         int O = 0;
         for(int i = 0; i != Board.getRows(); i++){
             for(int j = 0; j != Board.getColumns(); j++){
-                if(Board.get(i).get(j).equals("X")) X++;
-                else if(Board.get(i).get(j).equals("O")) O++;
+                if(Board.get(i).get(j) == 'X') X++;
+                else if(Board.get(i).get(j) == 'O') O++;
             }
         }
         Player ret;

@@ -32,7 +32,8 @@ public class LoadPanel extends JPanel implements ActionListener {
             if(board.charAt(i) == '\n') rows++;
         }
         int columns = (board.length() - 1 - rows) / rows;
-        Character lengthToWin = board.charAt(board.length()-1);
+        char lTW = board.charAt(board.length()-1);
+        int lengthToWin = lTW - '0';
         StringBuilder withoutWS = new StringBuilder(board.replaceAll("\\n", ""));
         withoutWS = withoutWS.deleteCharAt(withoutWS.length()-1);
 
@@ -44,9 +45,7 @@ public class LoadPanel extends JPanel implements ActionListener {
             }
         }
         ArrayList2D<Character> b = new ArrayList2D<>(a);
-        GameBoard gb = new GameBoard(lengthToWin,b);
-        AmobaGameModel ag = new AmobaGameModel(lengthToWin,gb,gb.decideCurrentPlayer());
-        gc = new GameController(ag);
+        gc = new GameController(lengthToWin,b);
     }
 
 

@@ -44,8 +44,8 @@ public class BoardFrame extends JPanel implements ActionListener {
         }
 
         setPreferredSize(new Dimension(getWidth()*50,getHeight()*50));
-
-        StatusBar = new JTextField("X jön");
+        char next = Player.toChar(gc.getModel().getCurrentPlayer());
+        StatusBar = new JTextField(next + "'s turn");
         StatusBar.setHorizontalAlignment(JTextField.CENTER);
         StatusBar.setSize(50,100);
         StatusBar.setEditable(false);
@@ -70,11 +70,11 @@ public class BoardFrame extends JPanel implements ActionListener {
         switch (player) {
             case X -> {
                 buttons[which].setX();
-                StatusBar.setText("O jon");
+                StatusBar.setText("O's turn");
             }
             case O -> {
                 buttons[which].setO();
-                StatusBar.setText("X jon");
+                StatusBar.setText("X's turn");
             }
         }
     }
@@ -82,10 +82,10 @@ public class BoardFrame extends JPanel implements ActionListener {
     public void displayGameOver(int status) {
         if(status == 1){
             char Winner = Player.toChar(gc.getModel().getCurrentPlayer());
-            StatusBar.setText(Winner + " nyert!");
+            StatusBar.setText(Winner + " won!");
         }
         else{
-            StatusBar.setText("A jatek dontetlennel ert veget.");
+            StatusBar.setText("Game ended in draw.");
         }
         Object[] option={"Back to Main Menu"};
         int n=JOptionPane.showOptionDialog(getParent(), "Game Over\n","Game Over",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,option,option[0]);
@@ -98,6 +98,6 @@ public class BoardFrame extends JPanel implements ActionListener {
     }
 
     public void invalidMove() {
-        StatusBar.setText("A mezo mar foglalt!");
+        StatusBar.setText("The field is already taken!");
     }
 }
