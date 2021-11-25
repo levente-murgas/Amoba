@@ -16,8 +16,8 @@ public class SavePanel extends JPanel implements ActionListener {
             i++;
         }
         if(gc.saveGame(i)) {
-            JOptionPane.showMessageDialog(this, "Jatek mentve, most már boldogan alhatsz:)",
-                    "SIKERES MENTES",
+            JOptionPane.showMessageDialog(this, "The game will be saved after the app closes.",
+                    "SAVE SUCCESSFUL",
                     JOptionPane.INFORMATION_MESSAGE);
             JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
             AmobaFrame topFrame = (AmobaFrame) f1;

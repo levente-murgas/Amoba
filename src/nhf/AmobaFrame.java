@@ -17,6 +17,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     private int Columns;
     private int LengthToWin;
     private SavePanel savePanel;
+    private LoadPanel loadPanel;
     private JComboBox RoBSelect;
     private JComboBox CoBSelect;
     private JComboBox LTWSelect;
@@ -96,27 +97,10 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         mainMenu.add(BottomPanel,BorderLayout.SOUTH);
         //
         ///loadMenu
-        LoadPanel loadPanel = new LoadPanel();
-        loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
-        JLabel loads = new JLabel("Saves");
-        JButton load1 = new JButton("Save1");
-        load1.addActionListener(loadPanel);
-        JButton load2 = new JButton("Save2");
-        load2.addActionListener(loadPanel);
-        JButton load3 = new JButton("Save3");
-        load3.addActionListener(loadPanel);
-        JButton load4 = new JButton("Save4");
-        load4.addActionListener(loadPanel);
-        JButton load5 = new JButton("Save5");
-        load5.addActionListener(loadPanel);
         JButton backToMenuBtn = new JButton("Back");
         backToMenuBtn.addActionListener(e -> backToMenu());
-        addAComponent(loads,loadPanel);
-        addAComponent(load1,loadPanel);
-        addAComponent(load2,loadPanel);
-        addAComponent(load3,loadPanel);
-        addAComponent(load4,loadPanel);
-        addAComponent(load5,loadPanel);
+        loadPanel = new LoadPanel(5);
+        loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
         loadMenu.add(backToMenuBtn);
         loadMenu.add(loadPanel);
         //
@@ -177,6 +161,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
 
         });
         SaveAndExit.addActionListener(e -> {
+            savePanel.setVisible(true);
             cl.show(Cards,"save");
             boardView.setVisible(false);
         });
@@ -190,6 +175,8 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             Rows = (Integer) RoBSelect.getSelectedItem();
             Columns = (Integer) CoBSelect.getSelectedItem();
             gc = new GameController(LengthToWin,Rows,Columns);
+            boardView = gc.getBoard();
+            gameMenu.add(boardView,BorderLayout.CENTER);
             startGame(gc);
         });
 
@@ -203,7 +190,6 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     public void startGame(GameController gc){
         savePanel.setGC(gc);
         boardView = gc.getBoard();
-        gameMenu.add(boardView,BorderLayout.CENTER);
         cl.show(Cards,"game");
     }
 
@@ -309,4 +295,10 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         a.setVisible(true);
 
     }
+
+  /*  public void notifyLoadPanel(int i) {
+        loadPanel.update(i);
+    }
+
+   */
 }
