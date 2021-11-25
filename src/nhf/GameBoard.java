@@ -10,8 +10,10 @@ import java.util.ArrayList;
 public class GameBoard {
 
     private ArrayList2D<Character> Board;
+    private int LengthToWin;
 
-    public GameBoard(int columns, int rows) {
+    public GameBoard(int lengthToWin,int columns, int rows) {
+        LengthToWin = lengthToWin;
         Board = new ArrayList2D<>(rows,columns,'0');
     }
 
@@ -22,6 +24,8 @@ public class GameBoard {
             }
             w.write("\n");
         }
+        Integer i = LengthToWin;
+        w.write(i.toString());
     }
  
 

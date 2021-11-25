@@ -1,6 +1,8 @@
 package nhf;
 
 
+import java.io.IOException;
+import java.io.Writer;
 
 public class AmobaGameModel  {
     public  enum Player {
@@ -17,7 +19,7 @@ public class AmobaGameModel  {
     private int LengthToWin;
 
     public AmobaGameModel(int lengthToWin, int rows, int columns){
-        Board = new GameBoard(columns,rows);
+        Board = new GameBoard(lengthToWin,columns,rows);
         LengthToWin = lengthToWin;
         CurrentPlayer = Player.X;
     }

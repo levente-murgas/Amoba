@@ -96,14 +96,19 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         mainMenu.add(BottomPanel,BorderLayout.SOUTH);
         //
         ///loadMenu
-        JPanel loadPanel = new JPanel();
+        LoadPanel loadPanel = new LoadPanel();
         loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
         JLabel loads = new JLabel("Mentesek");
         JButton load1 = new JButton("Mentes1");
+        load1.addActionListener(loadPanel);
         JButton load2 = new JButton("Mentes2");
+        load2.addActionListener(loadPanel);
         JButton load3 = new JButton("Mentes3");
+        load3.addActionListener(loadPanel);
         JButton load4 = new JButton("Mentes4");
+        load4.addActionListener(loadPanel);
         JButton load5 = new JButton("Mentes5");
+        load5.addActionListener(loadPanel);
         JButton backToMenuBtn = new JButton("Vissza");
         backToMenuBtn.addActionListener(e -> backToMenu());
         addAComponent(loads,loadPanel);
@@ -119,7 +124,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         gameMenu.setLayout(new BorderLayout());
 
         //saveMenu
-        SavePanel savePanel = new SavePanel();
+        savePanel = new SavePanel();
         savePanel.setLayout(new BoxLayout(savePanel,BoxLayout.Y_AXIS));
         JLabel jl1 = new JLabel("Mentsd ide:");
         JButton save1 = new JButton("Mentes1");
@@ -185,10 +190,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             Rows = (Integer) RoBSelect.getSelectedItem();
             Columns = (Integer) CoBSelect.getSelectedItem();
             gc = new GameController(this.LengthToWin,Rows,Columns);
-            savePanel.setGC(gc);
-            boardView = gc.getBoard();
-            gameMenu.add(boardView,BorderLayout.CENTER);
-            cl.show(Cards,"game");
+            startGame();
         });
 
 
@@ -196,6 +198,13 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         getContentPane().add(Cards);
 
         pack();
+    }
+
+    public void startGame(){
+        savePanel.setGC(gc);
+        boardView = gc.getBoard();
+        gameMenu.add(boardView,BorderLayout.CENTER);
+        cl.show(Cards,"game");
     }
 
     private static void openWebpage(String urlString) {

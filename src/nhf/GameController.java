@@ -1,7 +1,6 @@
 package nhf;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,6 +14,15 @@ public class GameController {
         gameModel = new AmobaGameModel(lengthToWin,rows,columns);
         boardFrame = new BoardFrame(this);
     }
+
+    public GameController() {
+        boardFrame = null;
+        gameModel = null;
+    }
+
+    public void setModel(int lengthToWin, int rows, int columns){gameModel = new AmobaGameModel(lengthToWin,rows,columns);}
+
+    public void setBoard(GameController gc){ boardFrame = new BoardFrame(gc);}
 
     public BoardFrame getBoard(){ return boardFrame;}
 
@@ -33,8 +41,8 @@ public class GameController {
         }
     }
 
-    public boolean saveGame(int index) {
-        Integer i = index;
+    public boolean saveGame(int whichFile) {
+        Integer i = whichFile;
         String filePath = "C:\\Users\\murga\\IdeaProjects\\nhf\\saves" + "\\save" + i + ".txt";
         File fi = new File(filePath);
         try {
