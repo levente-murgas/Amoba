@@ -177,6 +177,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
 
         });
         SaveAndExit.addActionListener(e -> {
+            this.savePanel.setVisible(true);
             cl.show(Cards,"save");
             boardView.setVisible(false);
         });

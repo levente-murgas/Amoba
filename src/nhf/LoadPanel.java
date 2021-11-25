@@ -20,10 +20,16 @@ public class LoadPanel extends JPanel implements ActionListener {
             i++;
         }
         String board = loadGame(i);
-        setUpGame(board);
-        JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
-        AmobaFrame topFrame = (AmobaFrame) f1;
-        topFrame.startGame(gc);
+        if(!board.isEmpty()) {
+            setUpGame(board);
+            JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
+            AmobaFrame topFrame = (AmobaFrame) f1;
+            topFrame.startGame(gc);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No saves here yet.",
+                    "Empty file", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void setUpGame(String board) {
@@ -63,7 +69,7 @@ public class LoadPanel extends JPanel implements ActionListener {
             }
             catch (FileNotFoundException fe)
             {
-                System.out.println("A keresett fajl nem talalhato.");
+                System.out.println("The file could not be found.");
             }
             // read from FileReader till the end of file
             if (fi.length() != 0) {
