@@ -3,54 +3,40 @@ package nhf;
 
 import nhf.AmobaGameModel.Player;
 
-import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class GameBoard {
 
-    private ArrayList2D<Character> Field;
+    private ArrayList2D<Character> Board;
 
     public GameBoard(int columns, int rows) {
-        Field = new ArrayList2D<>(rows,columns,'0');
+        Board = new ArrayList2D<>(rows,columns,'0');
     }
 
-/*
-    ///Teszteléshez
-    public GameBoard(ArrayList<ArrayList<Character>> field) {
-        if (field == null) {
-            throw new IllegalArgumentException("field cannot be null");
-        }
-        this.Field = field;
-    }
-/*
-    ///Teszteléshez
-    /*public GameBoard(GameBoard other) {
-        int rows = other.getRows();
-        int columns = other.getColumns();
-        Field = new Character[rows][columns];
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < columns; col++) {
-                Field[row][col] = other.Field[row][col];
+    public void parseBoard(Writer w) throws IOException {
+        for(int i = 0; i != Board.getRows(); i++){
+            for(int j = 0; j != Board.getColumns(); j++){
+                w.write(Board.get(i).get(j));
             }
+            w.write("\n");
         }
     }
-*/
  
 
     public String stringOfRow(int row){
-        char[] ret = new char[Field.getColumns()];
-        for(int i=0 ; i != Field.getColumns(); i++){
-            ret[i] = Field.get(row).get(i);
+        char[] ret = new char[Board.getColumns()];
+        for(int i = 0; i != Board.getColumns(); i++){
+            ret[i] = Board.get(row).get(i);
         }
         return new String(ret);
     }
 
     public String stringOfColumn(int column){
-        char[] ret = new char[Field.getRows()];
-        for(int i = 0; i != Field.getRows(); i++){
-           ret[i] = Field.get(i).get(column);
+        char[] ret = new char[Board.getRows()];
+        for(int i = 0; i != Board.getRows(); i++){
+           ret[i] = Board.get(i).get(column);
         }
         return new String(ret);
     }
@@ -73,16 +59,16 @@ public class GameBoard {
         int i = row;
         int j = column;
         while(i >= 0 && j >= 0) {
-            ret = ret.concat(Field.get(i--).get(j--).toString());
+            ret = ret.concat(Board.get(i--).get(j--).toString());
         }
         ret = reverseString(ret);
         //az ujonnan lerakott jelet nem vesszük kétszer bele
-        if(row != Field.getRows() -1 && column != Field.getColumns()-1) {
+        if(row != Board.getRows() -1 && column != Board.getColumns()-1) {
             i = row + 1;
             j = column + 1;
             //egyet le egyet jobbra
-            while (i <= Field.getRows()-1 && j <= Field.getColumns()-1) {
-                ret = ret.concat(Field.get(i++).get(j++).toString());
+            while (i <= Board.getRows()-1 && j <= Board.getColumns()-1) {
+                ret = ret.concat(Board.get(i++).get(j++).toString());
             }
         }
         return ret;
@@ -93,34 +79,34 @@ public class GameBoard {
         //egyet fel egyet jobbra
         int i = row;
         int j = column;
-        while(i >= 0 && j <= Field.getColumns() - 1){
-            ret = ret.concat(Field.get(i--).get(j++).toString());
+        while(i >= 0 && j <= Board.getColumns() - 1){
+            ret = ret.concat(Board.get(i--).get(j++).toString());
         }
 
         ret = reverseString(ret);
         //az ujonnan lerakott jelet nem vesszük kétszer bele
-        if(row != Field.getRows()-1 && column != 0){
+        if(row != Board.getRows()-1 && column != 0){
             i = row + 1;
             j = column - 1;
             //egyet le egyet balra
-            while (i <= Field.getRows() -1  && j >= 0) {
-              ret = ret.concat(Field.get(i++).get(j--).toString());
+            while (i <= Board.getRows() -1  && j >= 0) {
+              ret = ret.concat(Board.get(i++).get(j--).toString());
 
             }
         }
         return ret;
     }
 
-    public int getFieldSize(){ return Field.getSize();}
+    public int getFieldSize(){ return Board.getSize();}
 
-    public int getColumns(){return Field.getColumns();}
+    public int getColumns(){return Board.getColumns();}
 
-    public int getRows(){return Field.getRows();}
+    public int getRows(){return Board.getRows();}
 
     public int[] findPos(int i){
         int[] pos = new int[2];
-        pos[0] = i / Field.getColumns();
-        pos[1] = i % Field.getColumns();
+        pos[0] = i / Board.getColumns();
+        pos[1] = i % Board.getColumns();
         return pos;
     }
 
@@ -135,19 +121,19 @@ public class GameBoard {
         int[] position = findPos(pos);
         int row = position[0];
         int column = position[1];
-        if(Field.get(row).get(column) != '0'){
+        if(Board.get(row).get(column) != '0'){
             return false;
         } else {
-            Field.setValue(row,column,Player.toChar(player));
+            Board.setValue(row,column,Player.toChar(player));
             return true;
         }
     }
 
     public int positionsLeft() {
         int ret = 0;
-        for(int i = 0; i != Field.getRows(); i++){
-            for(int j = 0; j != Field.getColumns(); j++) {
-                if ( Field.get(i).get(j) == '0') ret++;
+        for(int i = 0; i != Board.getRows(); i++){
+            for(int j = 0; j != Board.getColumns(); j++) {
+                if ( Board.get(i).get(j) == '0') ret++;
             }
         }
         return ret;

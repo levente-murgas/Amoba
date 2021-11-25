@@ -1,6 +1,10 @@
 package nhf;
 
+import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 public class GameController {
 
@@ -29,7 +33,25 @@ public class GameController {
         }
     }
 
-    public void saveGame(int i) {
-        System.out.println(i);
+    public boolean saveGame(int index) {
+        Integer i = index;
+        String filePath = "C:\\Users\\murga\\IdeaProjects\\nhf\\saves" + "\\save" + i + ".txt";
+        File fi = new File(filePath);
+        try {
+            // Create a file writer
+            FileWriter wr = new FileWriter(fi, false);
+            // Create buffered writer to write
+            BufferedWriter w = new BufferedWriter(wr);
+            // Write
+            gameModel.getGameBoard().parseBoard(w);
+            w.flush();
+            w.close();
+            return true;
+        }
+        catch (Exception evt) {
+            JOptionPane.showMessageDialog(SwingUtilities.windowForComponent(boardFrame), evt.getMessage());
+            return false;
+        }
     }
+
 }

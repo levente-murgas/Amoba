@@ -15,7 +15,15 @@ public class SavePanel extends JPanel implements ActionListener {
             if(c[i].equals(e.getSource())) break;
             i++;
         }
-        gc.saveGame(i);
+        if(gc.saveGame(i)) {
+            JOptionPane.showMessageDialog(this, "Jatek mentve, most már boldogan alhatsz:)",
+                    "SIKERES MENTES",
+                    JOptionPane.INFORMATION_MESSAGE);
+            JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
+            AmobaFrame topFrame = (AmobaFrame) f1;
+            topFrame.backToMenu();
+            setVisible(false);
+        }
     }
 
     public void setGC(GameController gc) {
