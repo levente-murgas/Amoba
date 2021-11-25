@@ -17,6 +17,29 @@ public class GameBoard {
         Board = new ArrayList2D<>(rows,columns,'0');
     }
 
+    public GameBoard(int lengthToWin, ArrayList2D<Character> b){
+        LengthToWin = lengthToWin;
+        Board = b;
+    }
+
+    public Player decideCurrentPlayer(){
+        int X = 0;
+        int O = 0;
+        for(int i = 0; i != Board.getRows(); i++){
+            for(int j = 0; j != Board.getColumns(); j++){
+                if(Board.get(i).get(j).equals("X")) X++;
+                else if(Board.get(i).get(j).equals("O")) O++;
+            }
+        }
+        Player ret;
+        ret = (O < X) ? Player.O : Player.X;
+        return ret;
+    }
+
+    public Character valueAt(int x, int y){
+        return Board.get(x).get(y);
+    }
+
     public void parseBoard(Writer w) throws IOException {
         for(int i = 0; i != Board.getRows(); i++){
             for(int j = 0; j != Board.getColumns(); j++){
@@ -123,12 +146,10 @@ public class GameBoard {
             throw new IllegalArgumentException("cannot mark null player");
         }
         int[] position = findPos(pos);
-        int row = position[0];
-        int column = position[1];
-        if(Board.get(row).get(column) != '0'){
+        if(Board.get(position[0]).get(position[1]) != '0'){
             return false;
         } else {
-            Board.setValue(row,column,Player.toChar(player));
+            Board.setValue(position[0],position[1],Player.toChar(player));
             return true;
         }
     }

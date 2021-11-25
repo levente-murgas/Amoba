@@ -32,9 +32,13 @@ public class BoardFrame extends JPanel implements ActionListener {
         } catch (Exception ex){
             ex.printStackTrace();
         }
+        int[] pos;
         for(int i=0; i!= FieldSize; i++){
+            pos = gc.getModel().getGameBoard().findPos(i);
             buttons[i] = new XOButton();
             buttons[i].addActionListener(this);
+            if(gc.getModel().getGameBoard().valueAt(pos[0],pos[1]).equals('X')) buttons[i].setX();
+            else if(gc.getModel().getGameBoard().valueAt(pos[0],pos[1]).equals('O')) buttons[i].setO();
             buttons[i].setSize(50,50);
             BoardPanel.add(buttons[i]);
         }
@@ -52,9 +56,6 @@ public class BoardFrame extends JPanel implements ActionListener {
         add(BoardPanel,BorderLayout.CENTER);
     }
 
-    public Window getWindow(){
-        return SwingUtilities.windowForComponent(BoardPanel);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

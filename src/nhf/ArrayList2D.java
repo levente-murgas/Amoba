@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class ArrayList2D<T> extends ArrayList<ArrayList<T>> {
     private ArrayList<ArrayList<T>> Array;
-    private final int rows;
-    private final int columns;
-    private final int size;
+    private int rows;
+    private int columns;
+    private int size;
 
     public ArrayList2D(int rows, int columns, T filler){
         this.rows = rows;
@@ -19,6 +19,12 @@ public class ArrayList2D<T> extends ArrayList<ArrayList<T>> {
                 Array.get(i).add(filler);
             }
         }
+    }
+
+    public ArrayList2D(ArrayList<ArrayList<T>> a){
+        rows = a.size();
+        columns = a.get(0).size();
+        Array = a;
     }
 
     public void setValue(int row, int column, T value){

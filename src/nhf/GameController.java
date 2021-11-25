@@ -15,14 +15,10 @@ public class GameController {
         boardFrame = new BoardFrame(this);
     }
 
-    public GameController() {
-        boardFrame = null;
-        gameModel = null;
+    public GameController(AmobaGameModel ag) {
+        gameModel = ag;
+        boardFrame = new BoardFrame(this);
     }
-
-    public void setModel(int lengthToWin, int rows, int columns){gameModel = new AmobaGameModel(lengthToWin,rows,columns);}
-
-    public void setBoard(GameController gc){ boardFrame = new BoardFrame(gc);}
 
     public BoardFrame getBoard(){ return boardFrame;}
 

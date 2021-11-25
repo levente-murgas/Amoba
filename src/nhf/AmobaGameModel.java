@@ -24,6 +24,12 @@ public class AmobaGameModel  {
         CurrentPlayer = Player.X;
     }
 
+    public AmobaGameModel(int lengthToWin,GameBoard gb, Player player){
+        LengthToWin = lengthToWin;
+        Board = gb;
+        CurrentPlayer = player;
+    }
+
     private String makeCheckLineStr(Player toCheck){
         char[] checkLine = new char[LengthToWin];
         for(int i = 0; i != LengthToWin; i++) checkLine[i] = Player.toChar(toCheck);
