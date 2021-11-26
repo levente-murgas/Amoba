@@ -57,7 +57,8 @@ public class LoadPanel extends JPanel implements ActionListener {
 
     private String loadGame(int whichFile){
         Integer i = whichFile;
-        String filePath = "C:\\Users\\murga\\IdeaProjects\\nhf\\saves" + "\\save" + i + ".txt";
+        String directory =  System.getProperty("user.dir");
+        String filePath = directory + "\\saves" + "\\save" + i + ".txt";
         File fi = new File(filePath);
         StringBuilder board = new StringBuilder();
         try {
