@@ -176,7 +176,6 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             Columns = (Integer) CoBSelect.getSelectedItem();
             gc = new GameController(LengthToWin,Rows,Columns);
             boardView = gc.getBoard();
-            gameMenu.add(boardView,BorderLayout.CENTER);
             startGame(gc);
         });
 
@@ -190,6 +189,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     public void startGame(GameController gc){
         savePanel.setGC(gc);
         boardView = gc.getBoard();
+        gameMenu.add(boardView,BorderLayout.CENTER);
         cl.show(Cards,"game");
     }
 
