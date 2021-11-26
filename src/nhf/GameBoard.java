@@ -1,7 +1,7 @@
 package nhf;
 
 
-import nhf.AmobaGameModel.Player;
+import nhf.GameModel.Player;
 
 import java.io.IOException;
 import java.io.Writer;

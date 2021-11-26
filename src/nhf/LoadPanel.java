@@ -19,7 +19,7 @@ public class LoadPanel extends JPanel implements ActionListener {
             if(c[i].equals(e.getSource())) break;
             i++;
         }
-        String board = loadGame(i);
+        String board = loadGame(i,"\\saves\\save");
         if(!board.isEmpty()) {
             setUpGame(board);
             JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
@@ -32,7 +32,7 @@ public class LoadPanel extends JPanel implements ActionListener {
         }
     }
 
-    private void setUpGame(String board) {
+    protected void setUpGame(String board) {
         int rows =0;
         for(int i = 0; i != board.length()-1; i++){
             if(board.charAt(i) == '\n') rows++;
@@ -55,10 +55,10 @@ public class LoadPanel extends JPanel implements ActionListener {
     }
 
 
-    private String loadGame(int whichFile){
+    protected String loadGame(int whichFile, String child){
         Integer i = whichFile;
         String directory =  System.getProperty("user.dir");
-        String filePath = directory + "\\saves" + "\\save" + i + ".txt";
+        String filePath = directory + child + i + ".txt";
         File fi = new File(filePath);
         StringBuilder board = new StringBuilder();
         try {

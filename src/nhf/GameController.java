@@ -7,24 +7,24 @@ import java.io.FileWriter;
 
 public class GameController {
 
-    private AmobaGameModel gameModel;
+    private GameModel gameModel;
     private BoardFrame boardFrame;
 
     public GameController(int lengthToWin, int rows, int columns){
-        gameModel = new AmobaGameModel(lengthToWin,rows,columns);
+        gameModel = new GameModel(lengthToWin,rows,columns);
         boardFrame = new BoardFrame(this);
     }
 
 
     public GameController(int lengthToWin, ArrayList2D<Character> b) {
         GameBoard gb = new GameBoard(lengthToWin,b);
-        gameModel = new AmobaGameModel(lengthToWin,gb,gb.decideCurrentPlayer());
+        gameModel = new GameModel(lengthToWin,gb,gb.decideCurrentPlayer());
         boardFrame = new BoardFrame(this);
     }
 
     public BoardFrame getBoard(){ return boardFrame;}
 
-    public AmobaGameModel getModel(){ return gameModel;}
+    public GameModel getModel(){ return gameModel;}
 
     public void buttonPressed(int which){
         if(gameModel.moveMade(which)){

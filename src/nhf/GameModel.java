@@ -4,7 +4,7 @@ package nhf;
 import java.io.IOException;
 import java.io.Writer;
 
-public class AmobaGameModel  {
+public class GameModel {
     public  enum Player {
         O, X;
         public static Player opponentOf(Player player) {
@@ -18,39 +18,39 @@ public class AmobaGameModel  {
     private Player CurrentPlayer;
     private int LengthToWin;
 
-    public AmobaGameModel(int lengthToWin, int rows, int columns){
+    public GameModel(int lengthToWin, int rows, int columns){
         Board = new GameBoard(lengthToWin,columns,rows);
         LengthToWin = lengthToWin;
         CurrentPlayer = Player.X;
     }
 
-    public AmobaGameModel(int lengthToWin,GameBoard gb, Player player){
+    public GameModel(int lengthToWin, GameBoard gb, Player player){
         LengthToWin = lengthToWin;
         Board = gb;
         CurrentPlayer = player;
     }
 
-    private String makeCheckLineStr(Player toCheck){
+    public String makeCheckLineStr(Player toCheck){
         char[] checkLine = new char[LengthToWin];
         for(int i = 0; i != LengthToWin; i++) checkLine[i] = Player.toChar(toCheck);
         return new String(checkLine);
     }
 
-    private boolean rowMatches(int row) {
+    public boolean rowMatches(int row) {
         String checkLineString = makeCheckLineStr(CurrentPlayer);
         String RowToCheck = Board.stringOfRow(row);
         return RowToCheck.contains(checkLineString);
     }
 
 
-    private boolean columnMatches(int column) {
+    public boolean columnMatches(int column) {
         String checkLineString = makeCheckLineStr(CurrentPlayer);
         String ColumnToCheck = Board.stringOfColumn(column);
         return ColumnToCheck.contains(checkLineString);
     }
 
 
-    private boolean diagonalMatches(int row, int column) {
+    public boolean diagonalMatches(int row, int column) {
         String checkLineString = makeCheckLineStr(CurrentPlayer);
         String incDiagonal = Board.stringOfIncreasingDiagonal(row,column);
         String decDiagonal = Board.stringOfDecreasingDiagonal(row,column);
