@@ -1,70 +1,74 @@
 package nhf;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.util.LinkedList;
-import java.util.List;
-
-@RunWith(Parameterized.class)
+/**
+ * A GameModel osztály metódusainak tesztosztálya.
+ */
 public class GameModelTest {
-    GameModel gm;
+    GameModel gb;
 
-    public GameModelTest(GameModel gm){
-        this.gm = gm;
-    }
-
+    /**
+     *  Tesztkörnyezet felállítása.
+     */
     @Before
     public void init(){
         LoadPanel lp = new LoadPanel();
         String board = lp.loadGame(1,"\\test\\testsave");
         lp.setUpGame(board);
-        gm = lp.getGc().getModel();
+        gb = lp.getGc().getModel().getGameBoard();
     }
 
+    /**
+     * positionsLeftTest() fv. tesztje
+     */
     @Test
-    public void checkLineStrTest(){
-        String checkLineStr = gm.makeCheckLineStr(GameModel.Player.X);
-        Assert.assertEquals("XXX",checkLineStr);
-        checkLineStr = gm.makeCheckLineStr(GameModel.Player.O);
-        Assert.assertEquals("OOO",checkLineStr);
+    public void positionsLeftTest(){
+        int i = gb.positionsLeft();
+        Assert.assertEquals(21,i);
     }
 
+    /**
+     * place() fv. tesztje exception dobás esetén.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void placeNullPlayerTest(){
+        gb.place(1,null);
+    }
+
+    /**
+     * place() fv. tesztje
+     */
     @Test
-    public void columnMatchesTest(){
-        Assert.assertTrue(gm.columnMatches(1));
-        Assert.assertFalse(gm.columnMatches(0));
+    public void placeTest() {
+        boolean res = gb.place(0, GameEvaluator.Player.X);
+        Assert.assertFalse(res);
+        res = gb.place(3, GameEvaluator.Player.X);
+        Assert.assertTrue(res);
     }
 
+    /**
+     * reverseString() fv. tesztje
+     */
     @Test
-    public void rowMatchesTest(){
-        Assert.assertTrue(gm.columnMatches(1));
-        Assert.assertFalse(gm.rowMatches(2));
+    public void reverseStrTest(){
+        String s1 = "alma";
+        String s2 = gb.reverseString(s1);
+        Assert.assertEquals("amla",s2);
     }
 
+    /**
+     * findPos() fv. tesztje
+     */
     @Test
-    public void diagonalMatchesTest(){
-        Assert.assertTrue(gm.diagonalMatches(1,4));
-        Assert.assertTrue(gm.diagonalMatches(2,14));
-        Assert.assertFalse(gm.diagonalMatches(0,0));
-        ;
-    }
-
-    @Parameterized.Parameters
-    public static List<GameModel> data(){
-        List<GameModel> data = new LinkedList<>();
-        LoadPanel lp = new LoadPanel();
-        String board = lp.loadGame(1,"\\test\\testsave");
-        lp.setUpGame(board);
-        data.add(lp.getGc().getModel());
-        board = lp.loadGame(2,"\\test\\testsave");
-        lp.setUpGame(board);
-        data.add(lp.getGc().getModel());
-        return data;
+    public void findPosTest(){
+        int[] pos = gb.findPos(25);
+        Assert.assertEquals(1,pos[0]);
+        Assert.assertEquals(10,pos[1]);
     }
 
 }
+
+

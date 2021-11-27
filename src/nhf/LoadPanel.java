@@ -9,8 +9,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+/**
+ * A mentett játékállások betöltéséért felelős LoadPanel osztály.
+ */
 public class LoadPanel extends JPanel implements ActionListener {
     private GameController gc;
+
+    /**
+     * ActionListener actionperformed() függvényének implementációja.
+     * Megkeresi a kívánt játékállást melyik fájlban kell keresni,
+     * betölti, majd elindítja a játékot.
+     * üzenettel értesíti a felhasználót ha a keresett fájlba még
+     * nem volt játék mentve.
+     * @param e a kiváltó esemény
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -33,6 +45,12 @@ public class LoadPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * A mentett játék szöveges reprezentációját értelmezi és a kinyert
+     * adatokból létrehozza a GameControllert.
+     *
+     * @param board - a mentett játék szöveges reprezentációja
+     */
     protected void setUpGame(String board) {
         int rows =0;
         for(int i = 0; i != board.length()-1; i++){
@@ -56,6 +74,15 @@ public class LoadPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * Beolvassa a keresett fájlból a játékállás
+     * szöveges reprezentációját.
+     *
+     * @param whichFile az olvasandó fájl sorszáma
+     * @param child     az alkönyvtár amiben a fájl
+     *                  található és a fájl neve
+     * @return a játék szöveges reprezentációja
+     */
     protected String loadGame(int whichFile, String child){
         Integer i = whichFile;
         String directory =  System.getProperty("user.dir");
@@ -88,5 +115,10 @@ public class LoadPanel extends JPanel implements ActionListener {
         return board.toString();
     }
 
+    /**
+     * Getter.
+     * Visszaadja a GameControllert
+     * @return a GameController
+     */
     public GameController getGc(){return gc;}
 }

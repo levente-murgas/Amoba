@@ -4,9 +4,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * A SavePanel osztály metódusának tesztosztálya.
+ */
 public class SavePanelTest {
     SavePanel sp;
     LoadPanel lp;
+
+    /**
+     * Tesztkörnyezet előkészítése.
+     */
     @Before
     public void init(){
         lp = new LoadPanel();
@@ -17,6 +24,9 @@ public class SavePanelTest {
     }
 
 
+    /**
+     * saveGame() fv. tesztje
+     */
     @Test
     public void saveGameTest(){
         sp.saveGame(3,"\\test\\testsave");

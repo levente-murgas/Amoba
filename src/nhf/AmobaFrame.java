@@ -9,6 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+/**
+ * AmobaFrame osztály. JFrame leszármazottja és implementálja az
+ * ActionListener és MenuListener interfészeket.
+ * A főmenü megjelenítése az elsődleges felelőssége.
+ * A játék nézetért felelős BoardFrame-mel kommunikál.
+ */
 public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     private JPanel Cards;
     private CardLayout cl;
@@ -30,6 +36,9 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     private JMenuItem SaveAndExit;
     private JMenuItem BackToMenu;
 
+    /**
+     * Inicializál egy új AmobaFrame objektumot.
+     */
     public AmobaFrame() {
         Cards = new JPanel();
         cl = new CardLayout();
@@ -95,7 +104,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         mainMenu.add(TopPanel,BorderLayout.NORTH);
         mainMenu.add(BottomPanel,BorderLayout.SOUTH);
         //
-        ///loadMenu
+        ///LOADMENU
         LoadPanel loadPanel = new LoadPanel();
         loadPanel.setLayout(new BoxLayout(loadPanel,BoxLayout.Y_AXIS));
         JLabel loads = new JLabel("Saves");
@@ -120,10 +129,10 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         loadMenu.add(backToMenuBtn);
         loadMenu.add(loadPanel);
         //
-        ///gameMenu
+        ///GAMEMENU
         gameMenu.setLayout(new BorderLayout());
 
-        //saveMenu
+        //SAVEMENU
         savePanel = new SavePanel();
         savePanel.setLayout(new BoxLayout(savePanel,BoxLayout.Y_AXIS));
         JLabel jl1 = new JLabel("Save here:");
@@ -151,7 +160,7 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         saveMenu.add(backToGameBtn);
         saveMenu.add(savePanel);
 
-        ///MenuBar
+        ///MENUBAR
         MenuBar = new JMenuBar();
         FileMenu = new JMenu("File");
         Help = new JMenu("Help");
@@ -201,6 +210,12 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         pack();
     }
 
+    /**
+     * Elindít egy játékot.
+     * Átvált a Játék nézetre.
+     *
+     * @param gc GameController ami összeköti a játék modellt a játék nézetével.
+     */
     public void startGame(GameController gc){
         savePanel.setGC(gc);
         boardView = gc.getBoard();
@@ -208,6 +223,11 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         cl.show(Cards,"game");
     }
 
+    /**
+     * Megnyit egy weboldalt a számítógép alapértelmezett böngészőjében.
+     *
+     * @param urlString a megnyitandó weboldal címe
+     */
     private static void openWebpage(String urlString) {
         try {
             Desktop.getDesktop().browse(new URL(urlString).toURI());
@@ -215,6 +235,11 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Visszaadja, hogy épp melyik kártya (nézet) van megjelenítve
+     * @return - a megjelenített nézet kényszere, String típusú
+     */
     private String getCurrentCard(){
         Component[] c = Cards.getComponents();
         int i = 0;
@@ -240,16 +265,32 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         }
     }
 
+    /**
+     * Visszavált a Főmenü nézetre
+     */
     public void backToMenu(){
         cl.show(Cards,"main");
     }
 
+    /**
+     * Középre igazítva hozzáad egy c kompomenst a container konténerhez.
+     * A SavePanel és a LoadPanel inicializálásánál van fő haszna.
+     * @param c a hozzáadni kívánt komponens
+     * @param container a konténer amihez, hozzá szeretnénk adni
+     */
     private static void addAComponent(JComponent c, Container container) {
         c.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(c);
     }
 
-
+    /**
+     * ActionListener actionperformed() függvényének implementációja.
+     * Regisztrálja a kiválasztott paraméretek (sor,oszlop,győzelmi vonal) értékeit és
+     * azok függvényében meghatározza mennyi lehet a maximális
+     * győzelmi vonal hossza.
+     * @param e a kiváltó esemény, egyik JComboBox értéke
+     *          megváltozott.
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -283,7 +324,12 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
         }
     }
 
-
+    /**
+     * MenuListener menuSelected() függvényének implementációja.
+     * Ha nem a játékban vagyunk letiltja a Save & Exit és a
+     * Back to Menu menüpontokat.
+     * @param e a kiváltó esemény
+     */
     @Override
     public void menuSelected(MenuEvent e) {
         if(getCurrentCard().equals("game")){
@@ -295,13 +341,22 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
             BackToMenu.setEnabled(false);
         }
     }
-
+    /**
+     * Ez a függvény a MenüListener interfész része
+     * de miután a feladatomban nem volt rá szükségem
+     * ezért nem implementáltam.
+     * @param e
+     */
     @Override
     public void menuDeselected(MenuEvent e) {
     }
-
+    /**
+     * Ez a függvény a MenüListener interfész része
+     * de miután a feladatomban nem volt rá szükségem
+     * ezért nem implementáltam.
+     * @param e
+     */
     @Override
     public void menuCanceled(MenuEvent e) {
     }
-
 }

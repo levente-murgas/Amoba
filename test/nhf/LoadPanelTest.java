@@ -4,16 +4,23 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-
+/**
+ *  A LoadPanel osztály metódusának tesztosztálya.
+ */
 public class LoadPanelTest {
     LoadPanel lp;
 
+    /**
+     * Tesztkörnyezet előkészítése.
+     */
     @Before
     public void init(){
         lp = new LoadPanel();
     }
 
+    /**
+     * loadGame() fv. tesztje
+     */
     @Test
     public void loadGameTest(){
         String res = lp.loadGame(1,"\\test\\testsave");

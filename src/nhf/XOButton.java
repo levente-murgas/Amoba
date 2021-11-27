@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 
+/**
+ * A játékmezőnek megfelelő XOButton osztály.
+ * A JButton osztály leszármazottja.
+ */
 public class XOButton extends JButton  {
     private ImageIcon Xbutton,Obutton;
 
@@ -23,6 +27,11 @@ public class XOButton extends JButton  {
 
     }
 
+    /**
+     * Inicializál egy XOButton objektumot.
+     *
+     * @throws NullPointerException the null pointer exception
+     */
     public XOButton() throws NullPointerException{
         setMinimumSize(new Dimension(50,50));
         setSize(50,50);
@@ -32,7 +41,13 @@ public class XOButton extends JButton  {
         Obutton = new ImageIcon(this.getClass().getResource("O.png"));
     }
 
+    /**
+     * A gomb ikonját "X"-re állítja.
+     */
     public void setX(){setIcon(Xbutton);}
 
+    /**
+     * A gomb ikonját "O"-ra állítja.
+     */
     public void setO(){setIcon(Obutton);}
 }

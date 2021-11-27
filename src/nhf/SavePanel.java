@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+/**
+ * A folytatni kívánt játékállások elmentéséért felelős SavePanel osztály.
+ */
 public class SavePanel extends JPanel implements ActionListener {
     private GameController gc;
     @Override
@@ -29,6 +32,14 @@ public class SavePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Elmenti a játékot az adott sorszámú mentésfájlba.
+     *
+     * @param whichFile a mentésfájl sorszáma
+     * @param child     a mentésfájl alkönyvtára
+     *                  és a mentésfájl neve
+     * @return sikerült-e a mentés
+     */
     public boolean saveGame(int whichFile, String child) {
         Integer i = whichFile;
         String directory =  System.getProperty("user.dir");
@@ -51,6 +62,11 @@ public class SavePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Setter.
+     * Beállítja a GameControllert.
+     * @param gc a GameController
+     */
     public void setGC(GameController gc) {
         this.gc = gc;
     }

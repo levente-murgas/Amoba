@@ -1,6 +1,6 @@
 package nhf;
 
-import nhf.GameModel.Player;
+import nhf.GameEvaluator.Player;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -10,6 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * A Játék nézet megjelenítéséért felelős BoardFrame osztály.
+ * Az MVC hármasból övé a View szerepe.
+ * A JPanel osztály leszármazottja,
+ * implementálja az ActionListener interfészt.
+ */
 public class BoardFrame extends JPanel implements ActionListener {
     private int Rows;
     private int Columns;
@@ -19,6 +25,11 @@ public class BoardFrame extends JPanel implements ActionListener {
     private JPanel BoardPanel;
     private JTextField StatusBar;
 
+    /**
+     * Inicializál egy BoardFrame objektumot.
+     *
+     * @param gc GameController ami összeköti a játék nézetet a játék modellel.
+     */
     public BoardFrame(GameController gc){
         super();
         setLayout(new BorderLayout());
@@ -60,7 +71,11 @@ public class BoardFrame extends JPanel implements ActionListener {
         add(BoardPanel,BorderLayout.CENTER);
     }
 
-
+    /**
+     * ActionListener actionperformed() függvényének implementációja.
+     * Szól a GameControllernek ha az egyik mezőre rakni szeretnének bábut.
+     * @param e a kiváltó esemény
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         int pos;
@@ -70,6 +85,13 @@ public class BoardFrame extends JPanel implements ActionListener {
         gc.buttonPressed(pos);
     }
 
+    /**
+     * Megjelöli azt a gombot amire bábut raktak.
+     *
+     * @param which  a megjelölendő gomb indexe
+     * @param player a jelenlegi játékos, amiből eldöntjük melyik
+     *               jelet rakjuk le.
+     */
     public void markField(int which, Player player){
         switch (player) {
             case X -> {
@@ -83,6 +105,12 @@ public class BoardFrame extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Játék vége jelenet megjelenítését szolgáló függvény.
+     * Kiírja, hogy ki nyerte a játékot, valamint egy új ablakban, hogy
+     * a játéknak vége, ebből a kisablakból lehet visszalépni a főmenübe.
+     * @param status ebből derül ki a játéknak mi a végkimenetele
+     */
     public void displayGameOver(int status) {
         if(status == 1){
             char Winner = Player.toChar(gc.getModel().getCurrentPlayer());
@@ -125,10 +153,15 @@ public class BoardFrame extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * A játék végén körülrajzolja a játék során felhasznált mezőket a győztes játékos színével,
+     * ahogy azt a játék papír-ceruza verziójában is szokás csinálni.
+     * @param Winner
+     */
     private void drawAmoba(char Winner) {
         Color winnerColor = (Winner == 'X') ? Color.RED : Color.BLUE;
         int[] pos;
-        GameBoard gb = gc.getModel().getGameBoard();
+        GameModel gb = gc.getModel().getGameBoard();
         for(int i=0; i!= FieldSize; i++){
             pos = gc.getModel().getGameBoard().findPos(i);
             if(!gb.valueAt(pos).equals('0')){
@@ -157,11 +190,11 @@ public class BoardFrame extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * A helytelen lépést ez a függvény közli a felhasználóval.
+     */
     public void invalidMove() {
         StatusBar.setText("The field is already taken!");
     }
 
-    public String getStatusBar(){
-        return StatusBar.getText();
-    }
 }
