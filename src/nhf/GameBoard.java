@@ -36,8 +36,10 @@ public class GameBoard {
         return ret;
     }
 
-    public Character valueAt(int x, int y){
-        return Board.get(x).get(y);
+
+
+    public Character valueAt(int[] pos) throws IllegalArgumentException{
+            return Board.get(pos[0]).get(pos[1]);
     }
 
     public void parseBoard(Writer w) throws IOException {

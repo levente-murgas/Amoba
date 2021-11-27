@@ -1,6 +1,7 @@
 package nhf;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,8 +38,8 @@ public class BoardFrame extends JPanel implements ActionListener {
             pos = gc.getModel().getGameBoard().findPos(i);
             buttons[i] = new XOButton();
             buttons[i].addActionListener(this);
-            if(gc.getModel().getGameBoard().valueAt(pos[0],pos[1]).equals('X')) buttons[i].setX();
-            else if(gc.getModel().getGameBoard().valueAt(pos[0],pos[1]).equals('O')) buttons[i].setO();
+            if(gc.getModel().getGameBoard().valueAt(pos).equals('X')) buttons[i].setX();
+            else if(gc.getModel().getGameBoard().valueAt(pos).equals('O')) buttons[i].setO();
             buttons[i].setSize(50,50);
             BoardPanel.add(buttons[i]);
         }
@@ -83,6 +84,7 @@ public class BoardFrame extends JPanel implements ActionListener {
         if(status == 1){
             char Winner = Player.toChar(gc.getModel().getCurrentPlayer());
             StatusBar.setText(Winner + " won!");
+            drawAmoba(Winner);
         }
         else{
             StatusBar.setText("Game ended in draw.");
@@ -94,6 +96,38 @@ public class BoardFrame extends JPanel implements ActionListener {
             AmobaFrame topFrame = (AmobaFrame) f1;
             topFrame.backToMenu();
             setVisible(false);
+        }
+    }
+
+    private void drawAmoba(char Winner) {
+        Color winnerColor = (Winner == 'X') ? Color.RED : Color.BLUE;
+        int[] pos;
+        GameBoard gb = gc.getModel().getGameBoard();
+        for(int i=0; i!= FieldSize; i++){
+            pos = gc.getModel().getGameBoard().findPos(i);
+            if(!gb.valueAt(pos).equals('0')){
+                boolean topBorder = false;
+                boolean leftBorder = false;
+                boolean bottomBorder = false;
+                boolean rightBorder = false;
+                if(pos[0] == 0) topBorder = true;
+                if(pos[0] == Rows - 1) bottomBorder = true;
+                if(pos[1] == 0) leftBorder = true;
+                if(pos[1] == Columns - 1) rightBorder = true;
+                int[] topNeighbour = {pos[0] - 1,pos[1]};
+                int[] leftNeighbour = {pos[0],pos[1] - 1};
+                int[] bottomNeighbour = {pos[0] + 1,pos[1]};
+                int[] rightNeighbour = {pos[0],pos[1] + 1};
+                int topWidth = 0;
+                int leftWidth = 0;
+                int bottomWidth = 0;
+                int rightWidth = 0;
+                if(topBorder || gb.valueAt(topNeighbour).equals('0')) topWidth += 10;
+                if(leftBorder || gb.valueAt(leftNeighbour).equals('0')) leftWidth+= 10;
+                if(bottomBorder || gb.valueAt(bottomNeighbour).equals('0')) bottomWidth+= 10;
+                if(rightBorder || gb.valueAt(rightNeighbour).equals('0')) rightWidth+= 10;
+                buttons[i].setBorder(new MatteBorder(topWidth,leftWidth,bottomWidth,rightWidth,winnerColor));
+            }
         }
     }
 
