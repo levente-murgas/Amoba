@@ -304,9 +304,4 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     public void menuCanceled(MenuEvent e) {
     }
 
-    public static void main(String[] args){
-        AmobaFrame a = new AmobaFrame();
-        a.setVisible(true);
-
-    }
 }
