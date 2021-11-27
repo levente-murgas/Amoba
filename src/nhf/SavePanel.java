@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class SavePanel extends JPanel implements ActionListener {
-    GameController gc;
+    private GameController gc;
     @Override
     public void actionPerformed(ActionEvent e) {
         Component[] c = getComponents();

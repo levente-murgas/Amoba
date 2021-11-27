@@ -5,8 +5,7 @@ import java.awt.*;
 
 
 public class XOButton extends JButton  {
-    ImageIcon Xbutton,Obutton;
-
+    private ImageIcon Xbutton,Obutton;
 
     @Override
     public Dimension getMinimumSize() {

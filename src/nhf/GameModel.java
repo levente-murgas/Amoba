@@ -1,9 +1,6 @@
 package nhf;
 
 
-import java.io.IOException;
-import java.io.Writer;
-
 public class GameModel {
     public  enum Player {
         O, X;

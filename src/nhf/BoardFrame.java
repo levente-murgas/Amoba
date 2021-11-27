@@ -1,20 +1,23 @@
 package nhf;
 
+import nhf.GameModel.Player;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import nhf.GameModel.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class BoardFrame extends JPanel implements ActionListener {
-    int Rows;
-    int Columns;
-    int FieldSize;
-    XOButton[] buttons;
-    GameController gc;
-    JPanel BoardPanel;
-    JTextField StatusBar;
+    private int Rows;
+    private int Columns;
+    private int FieldSize;
+    private XOButton[] buttons;
+    private GameController gc;
+    private JPanel BoardPanel;
+    private JTextField StatusBar;
 
     public BoardFrame(GameController gc){
         super();
@@ -89,11 +92,34 @@ public class BoardFrame extends JPanel implements ActionListener {
         else{
             StatusBar.setText("Game ended in draw.");
         }
+        JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
+        AmobaFrame topFrame = (AmobaFrame) f1;
         Object[] option={"Back to Main Menu"};
-        int n=JOptionPane.showOptionDialog(getParent(), "Game Over\n","Game Over",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,option,option[0]);
-        if (n == 0){
-            JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
-            AmobaFrame topFrame = (AmobaFrame) f1;
+        final JOptionPane optionPane = new JOptionPane("Game Over\n", JOptionPane.INFORMATION_MESSAGE,JOptionPane.YES_NO_OPTION,null,option,option[0]);
+        final JDialog dialog = new JDialog(f1,
+                "Game Over",
+                true);
+        dialog.setContentPane(optionPane);
+        dialog.setDefaultCloseOperation(
+                JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+            }
+        });
+
+        optionPane.addPropertyChangeListener(
+                e -> {
+                    String prop = e.getPropertyName();
+                    if (dialog.isVisible()
+                            && (e.getSource() == optionPane)
+                            && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+                        dialog.setVisible(false);
+                    }
+                });
+        dialog.pack();
+        dialog.setVisible(true);
+        String value =(String) optionPane.getValue();
+        if (value.equals("Back to Main Menu")) {
             topFrame.backToMenu();
             setVisible(false);
         }
