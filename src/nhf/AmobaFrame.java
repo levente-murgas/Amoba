@@ -284,7 +284,6 @@ public class AmobaFrame extends JFrame implements ActionListener, MenuListener {
     }
 
 
-
     @Override
     public void menuSelected(MenuEvent e) {
         if(getCurrentCard().equals("game")){
