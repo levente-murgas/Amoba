@@ -18,7 +18,7 @@ public class SavePanel extends JPanel implements ActionListener {
             if(c[i].equals(e.getSource())) break;
             i++;
         }
-        if(saveGame(i)) {
+        if(saveGame(i,"\\saves\\save")) {
             JOptionPane.showMessageDialog(this, "Jatek mentve, most már boldogan alhatsz:)",
                     "SIKERES MENTES",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -29,10 +29,10 @@ public class SavePanel extends JPanel implements ActionListener {
         }
     }
 
-    public boolean saveGame(int whichFile) {
+    public boolean saveGame(int whichFile, String child) {
         Integer i = whichFile;
         String directory =  System.getProperty("user.dir");
-        String filePath = directory + "\\saves" + "\\save" + i + ".txt";
+        String filePath = directory + child + i + ".txt";
         File fi = new File(filePath);
         try {
             // Create a file writer

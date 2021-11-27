@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+
 public class LoadPanelTest {
     LoadPanel lp;
 
@@ -20,10 +22,13 @@ public class LoadPanelTest {
                             0XO0XOO0XXX00XO
                             OX0X0000000000X
                             3""",res);
+        res = lp.loadGame(2,"\\test\\testsave");
+        Assert.assertEquals("""
+                            XOX00O000000O00
+                            0O0XOX0XOOO00OX
+                            XOXOX0X0X0X0X0O
+                            3""",res);
     }
 
-    @Test
-    public void setUpGameTest(){
 
-    }
 }

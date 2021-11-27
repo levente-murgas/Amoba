@@ -23,7 +23,7 @@ public class GameModelTest {
         LoadPanel lp = new LoadPanel();
         String board = lp.loadGame(1,"\\test\\testsave");
         lp.setUpGame(board);
-        gm = lp.gc.getModel();
+        gm = lp.getGc().getModel();
     }
 
     @Test
@@ -37,17 +37,21 @@ public class GameModelTest {
     @Test
     public void columnMatchesTest(){
         Assert.assertTrue(gm.columnMatches(1));
+        Assert.assertFalse(gm.columnMatches(0));
     }
 
     @Test
     public void rowMatchesTest(){
         Assert.assertTrue(gm.columnMatches(1));
+        Assert.assertFalse(gm.rowMatches(2));
     }
 
     @Test
     public void diagonalMatchesTest(){
         Assert.assertTrue(gm.diagonalMatches(1,4));
         Assert.assertTrue(gm.diagonalMatches(2,14));
+        Assert.assertFalse(gm.diagonalMatches(0,0));
+        ;
     }
 
     @Parameterized.Parameters
@@ -56,10 +60,10 @@ public class GameModelTest {
         LoadPanel lp = new LoadPanel();
         String board = lp.loadGame(1,"\\test\\testsave");
         lp.setUpGame(board);
-        data.add(lp.gc.getModel());
+        data.add(lp.getGc().getModel());
         board = lp.loadGame(2,"\\test\\testsave");
         lp.setUpGame(board);
-        data.add(lp.gc.getModel());
+        data.add(lp.getGc().getModel());
         return data;
     }
 

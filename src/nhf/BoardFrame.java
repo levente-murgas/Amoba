@@ -100,4 +100,8 @@ public class BoardFrame extends JPanel implements ActionListener {
     public void invalidMove() {
         StatusBar.setText("The field is already taken!");
     }
+
+    public String getStatusBar(){
+        return StatusBar.getText();
+    }
 }

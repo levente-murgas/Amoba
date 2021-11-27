@@ -12,7 +12,7 @@ public class GameBoardTest {
         LoadPanel lp = new LoadPanel();
         String board = lp.loadGame(1,"\\test\\testsave");
         lp.setUpGame(board);
-        gb = lp.gc.getModel().getGameBoard();
+        gb = lp.getGc().getModel().getGameBoard();
     }
 
     @Test
@@ -28,10 +28,10 @@ public class GameBoardTest {
 
     @Test
     public void placeTest() {
-        boolean res1 = gb.place(0, GameModel.Player.X);
-        Assert.assertFalse(res1);
-        boolean res2 = gb.place(3, GameModel.Player.X);
-        Assert.assertTrue(res2);
+        boolean res = gb.place(0, GameModel.Player.X);
+        Assert.assertFalse(res);
+        res = gb.place(3, GameModel.Player.X);
+        Assert.assertTrue(res);
     }
 
     @Test
@@ -39,6 +39,13 @@ public class GameBoardTest {
         String s1 = "alma";
         String s2 = gb.reverseString(s1);
         Assert.assertEquals("amla",s2);
+    }
+
+    @Test
+    public void findPosTest(){
+        int[] pos = gb.findPos(25);
+        Assert.assertEquals(1,pos[0]);
+        Assert.assertEquals(10,pos[1]);
     }
 
 }

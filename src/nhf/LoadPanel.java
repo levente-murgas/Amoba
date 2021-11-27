@@ -10,7 +10,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class LoadPanel extends JPanel implements ActionListener {
-    GameController gc;
+    private GameController gc;
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Component[] c = getComponents();
@@ -86,4 +87,6 @@ public class LoadPanel extends JPanel implements ActionListener {
         }
         return board.toString();
     }
+
+    public GameController getGc(){return gc;}
 }
