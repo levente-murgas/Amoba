@@ -39,26 +39,4 @@ public class GameController {
         }
     }
 
-    public boolean saveGame(int whichFile) {
-        Integer i = whichFile;
-        String directory =  System.getProperty("user.dir");
-        String filePath = directory + "\\saves" + "\\save" + i + ".txt";
-        File fi = new File(filePath);
-        try {
-            // Create a file writer
-            FileWriter wr = new FileWriter(fi, false);
-            // Create buffered writer to write
-            BufferedWriter w = new BufferedWriter(wr);
-            // Write
-            gameModel.getGameBoard().parseBoard(w);
-            w.flush();
-            w.close();
-            return true;
-        }
-        catch (Exception evt) {
-            JOptionPane.showMessageDialog(SwingUtilities.windowForComponent(boardFrame), evt.getMessage());
-            return false;
-        }
-    }
-
 }
